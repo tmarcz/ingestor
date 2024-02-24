@@ -1,0 +1,9 @@
+### start
+
+GET http://{{host}}:{{port}}/driver/start/0001-0001
+
+### stop
+
+GET http://{{host}}:{{port}}/driver/stop/0001-0001
+
+###

@@ -1,0 +1,5 @@
+### ping
+
+GET http://{{host}}:{{port}}/ping
+
+###
