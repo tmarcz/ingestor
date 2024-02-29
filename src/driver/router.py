@@ -10,39 +10,19 @@ import uuid
 import os
 import pathlib
 
+from src.driver.models import Pipeline
 
 router = APIRouter()
 
 
-class Pipeline(BaseModel):
-    name: str
-
-
-class Step(BaseModel):
-    name: str
-    component: str
-
-
-class Status(BaseModel):
-    text: str
-
-
-class Control(BaseModel):
-    text: str
-
-
-
-
 @router.post("/start/{pipeline_id}")
-async def start(pipeline_id: str, pipeline: Pipeline) -> dict:
-    result = {"id": pipeline_id, "pipeline": pipeline}
-
+async def start(pipeline_id: str) -> str:
     spark = (SparkSession.builder
              .master("local[1]")
              .appName("PySpark Tutorial")
              .getOrCreate())
 
-    df = spark.read.format("csv").option("header",True).load("../data/example-source.csv")
+    df = spark.read.format("csv").option("header", True).load("../data/example-source.csv")
     # df.printSchema()
 
     path = f"../data/target/{str(uuid.uuid4().hex)}"
@@ -53,9 +33,7 @@ async def start(pipeline_id: str, pipeline: Pipeline) -> dict:
     print(f'--- {spark.sparkContext.appName} ---')
     print("Spark version: ", spark.version)
 
-
-    result = {"id": pipeline_id, "pipeline": pipeline}
-    return result
+    return ""
 
 
 @router.get("/stop/{pipeline_id}")

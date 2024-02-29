@@ -20,4 +20,11 @@ Content-Type: application/json
 
 < ./start.json
 
+### test
+
+POST http://{{host}}:{{port}}/driver/test/0001-0001
+Content-Type: application/json
+
+< ./start.json
+
 ###

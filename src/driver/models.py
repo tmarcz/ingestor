@@ -22,8 +22,7 @@ class Pipeline(BaseModel):
     id: str
     name: str
     description: str
-    params: Dict[str, Any]
     steps: List[Step] = []
     controls: Any
-    config: Dict[str, Any]
+    params: Dict[str, Any]
 
