@@ -1,3 +1,4 @@
 pydantic
 pyfunctional
 pyspark
+pydantic

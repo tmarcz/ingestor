@@ -1,0 +1,33 @@
+version: "3.5"
+name: ingestor
+
+services:
+  db:
+    image: postgres:15.2
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 5432:5432
+
+  s3:
+    image: minio/minio
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    networks:
+      - network
+    volumes:
+      - 'minio_data:/data'
+    environment:
+      - MINIO_ROOT_USER=minio
+      - MINIO_ROOT_PASSWORD=minio
+      - MINIO_DEFAULT_BUCKETS=data
+
+networks:
+  network:
+    driver: bridge
+
+volumes:
+  minio_data:
+    driver: local

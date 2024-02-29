@@ -1,0 +1,113 @@
+{
+  "id": "0001-0001",
+  "name" : "Users scores",
+  "description": "Read S3 CSV file and write as Parquet to local",
+
+  "steps": [
+
+    {
+      "name": "s3",
+      "type": "source",
+      "output": "one",
+      "params": {
+        "endpoint": "http://localhost:9000",
+        "access_key": "minio",
+        "secret_key": "minio",
+        "bucket": "data",
+        "region": "us-east-1",
+        "key": "/source/example-source.csv"
+      },
+      "version": 1.0,
+      "controls": [
+        {
+          "name": "md5",
+          "type": "hash",
+          "params" : {}
+        }
+      ]
+    },
+
+    {
+      "name": "csv",
+      "type": "reader",
+      "input": "one",
+      "output": "one",
+      "params": {
+        "header": true,
+        "quote": "\"",
+        "encoding": "utf-8"
+      },
+      "version": 1.0,
+      "controls": [
+        {
+          "type": "count_rows",
+          "params" : {}
+        },
+        {
+          "type": "count_columns",
+          "params" : {}
+        },
+        {
+          "type": "hash_columns",
+          "params": {
+            "columns": ["id", "name"]
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "parquet",
+      "type": "writer",
+      "input": "one",
+      "output": "one",
+      "params": {
+        "mode": "overwrite"
+      },
+      "version": 1.0,
+      "controls": [
+        {
+          "type": "count_rows",
+          "params" : {}
+        },
+        {
+          "type": "count_columns",
+          "params" : {}
+        },
+        {
+          "type": "hash_columns",
+          "params": {
+            "columns": ["id", "name"]
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "local",
+      "type": "target",
+      "input": "one",
+      "params": {
+        "dir": "../data/target/example-target.parquet"
+      },
+      "version": 1.0,
+      "controls": [
+        {
+          "type": "hash",
+          "params" : {
+            "algorithm": "MD5"
+          }
+        }
+      ]
+    }
+  ],
+
+  "controls": {
+    "rules": {
+    }
+  },
+
+  "config": {
+    "timeout": 60
+  }
+}

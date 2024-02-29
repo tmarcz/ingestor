@@ -20,6 +20,6 @@ $structure = @"
     score   = [numeric]
 "@
 
-ig $structure -AsPSObject -Count $size |  Export-Csv -Path ..\data\example.csv -NoTypeInformation
+ig $structure -AsPSObject -Count $size |  Export-Csv -Path ..\data\source\example-source.csv -NoTypeInformation
 
 Write-Host "Done"

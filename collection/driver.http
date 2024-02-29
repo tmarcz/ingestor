@@ -6,4 +6,18 @@ GET http://{{host}}:{{port}}/driver/start/0001-0001
 
 GET http://{{host}}:{{port}}/driver/stop/0001-0001
 
+### start
+
+POST http://{{host}}:{{port}}/driver/start/0001-0001
+Content-Type: application/json
+
+{ "name" : "name1"}
+
+### start
+
+POST http://{{host}}:{{port}}/driver/start/0001-0001
+Content-Type: application/json
+
+< ./start.json
+
 ###
