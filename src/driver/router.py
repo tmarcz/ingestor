@@ -23,7 +23,6 @@ async def start(pipeline_id: str) -> str:
              .getOrCreate())
 
     df = spark.read.format("csv").option("header", True).load("../data/example-source.csv")
-    # df.printSchema()
 
     path = f"../data/target/{str(uuid.uuid4().hex)}"
     pathlib.Path(path).mkdir(parents=True, exist_ok=True)
@@ -41,7 +40,31 @@ async def stop(pipeline_id: str) -> str:
     return "stop " + pipeline_id
 
 
+
 @router.post("/test/{pipeline_id}")
 async def start(pipeline_id: str, pipeline: Pipeline) -> dict:
     result = {"id": pipeline_id, "pipeline": pipeline}
+
+    spark = (SparkSession.builder
+             .master("local[1]")
+             .appName(pipeline.id)
+             .getOrCreate())
+
+    def source_local_file(session: SparkSession, config) -> str:
+        file = config.params.dir
+        return file
+
+    def read_csv(session: SparkSession, path: str):
+        pass
+
+    def write_parquet(session: SparkSession) -> any:
+        pass
+
+    def target_local_file(session: SparkSession):
+        pass
+
+
+
     return result
+
+
